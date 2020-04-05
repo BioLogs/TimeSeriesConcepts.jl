@@ -1,0 +1,30 @@
+# Time Series
+
+This document gathers some main concepts in time series analysis as well as some examples written
+for the [Julia programming language](https://julialang.org).
+
+## Some definitions
+> A **time series** is a collection of **random variables** indexed in a *ordered set* representing time periods.
+
+## Examples
+
+1. **White noise**
+
+For example, one of the basic time series is **white noise**, which is a time series
+generated from uncorrelated variables, which are most of the time *normally distributed*.
+
+```julia
+using Plots
+using Random
+using TimeSeries
+using Dates
+
+pyplot()
+
+# Build a TimeSeries object
+dates = DateTime(2018, 1, 1, 1):Dates.Hour(3):DateTime(2018, 12, 31, 24)
+ts = TimeArray(dates, randn(length(dates)))
+
+# And plot it
+plot(ts, leg = false)
+```
