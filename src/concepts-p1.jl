@@ -10,6 +10,7 @@
 #' 
 #' First, we import every module that will be used in this document.
 #' 
+#' 
 #+ results = "hidden"
 
 using Plots
@@ -20,6 +21,8 @@ using Statistics: mean
 
 pyplot()
 
+#' 
+#' 
 #' 
 #' 
 #' ## Definitions
@@ -44,6 +47,7 @@ pyplot()
 #' One of the basic time series is **white noise**, which is a time series
 #' generated from uncorrelated variables, which are most of the time *normally distributed*.
 #' 
+#' 
 #+ 
 
 # Create a range of time for a year, spaced evenly every 10 hours
@@ -54,6 +58,8 @@ ts = TimeArray(dates, randn(length(dates)))
 # And plot it
 plot(ts, leg = false)
 
+#' 
+#' 
 #' 
 #' 
 #' This collection of random variables $\{x_t\}$ has the following properties:
@@ -91,6 +97,7 @@ plot(ts, leg = false)
 #' and future time periods and evaluates them, obtaining the **realization** as an arithmetic
 #' mean. The following example applies a moving average to a white noise time series.
 #' 
+#' 
 #+ 
 
 # Create a range of time for a year, spaced evenly every 50 hours
@@ -105,6 +112,8 @@ moving_average = moving(mean, ts, 3)
 plot(ts, label = "White noise")
 plot!(moving_average, label = "Moving average")
 
+#' 
+#' 
 #' 
 #' 
 #' In this case we used the following 3-valued moving average
@@ -133,8 +142,13 @@ plot!(moving_average, label = "Moving average")
 #' x_t = \delta t + \sum_{j=1}^{t} w_j
 #' $$
 #' 
-#' where, as before, $w_j$ is white noise time series, with $\sigma_w = 1$. We can see
-#' an example of this type of time series below.
+#' where, as before, $w_j$ is a white noise time series, with $\sigma_w = 1$;
+#' $\delta$ is the so-called *drift* coefficient that makes the trend in the time
+#' series much more steep. In the special case that we have $\delta = 0$ we would
+#' have what's called a simple *random walk*.
+#' 
+#' We can see an example of a random walk *with drift* and *without drift* below.
+#' 
 #' 
 #+ 
 
@@ -144,18 +158,19 @@ dates = DateTime(2018, 1, 1, 1):Dates.Hour(50):DateTime(2018, 12, 31, 24)
 wt = randn(length(dates))
 # Define a drift value
 δ = 0.2
-# We evaluate the random walk as a cumulative sum
-random_walk = cumsum(wt .+ δ)
-# We then build the TimeSeries object with the values.
-ts = TimeArray(dates, random_walk)
+# We then build the random walk with drift
+ts_drift = TimeArray(dates, cumsum(wt .+ δ))
+# And without drift
+ts_nodrift = TimeArray(dates, cumsum(wt))
 
 # And plot both of them superimposed
-plot(ts, label = "Random walk with drift")
+plot(ts_drift, label = "Random walk with drift")
+plot!(ts_nodrift, label = "Random walk without drift")
 
 #' 
 #' 
-#' Here we see a *trend* because every time period in the future, the *realization* is
-#' always higher than in past values. We might expect that this time series is always
-#' growing. We will see that *trends* are very useful to perform some basic exploratory
-#' analysis on the data itself.
+#' Here we see a *trend* in the time series because every time period in the future
+#' the *realization* is always higher than in past values.We might expect that this
+#' time series is always growing. We will see that *trends* are very useful to perform
+#' some basic exploratory analysis on the data itself in further documents.
 #' 
