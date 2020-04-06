@@ -1,5 +1,8 @@
-#' # Introduction to Time Series I
-#' 
+#' ---
+#' title: Introduction to Time Series I
+#' author: Edwin Bedolla
+#' date: 4th April 2020
+#' ---
 #' 
 #' This document gathers some main concepts in time series analysis as well as some examples written
 #' for the [Julia programming language](https://julialang.org).
@@ -20,8 +23,17 @@ pyplot()
 #' 
 #' 
 #' ## Definitions
-#' > A **time series** is a collection of **random variables** indexed in a *ordered set* representing time periods.
+#' > - A **time series** is a collection of **random variables** indexed in a *ordered set* representing time periods.
 #' 
+#' > - **Stochastic processes** are a family of _indexed_ random variables $Z(\omega, t)$
+#' >   where $\omega$ belongs to a **sample space** and $t$ belongs to an **index set**.
+#' 
+#' > - For a given $\omega$, $Z(\omega, t)$ as a function of $t$ is called a sample function or **realisation**.
+#' 
+#' > - The population that consists of all possible realisations is called the **ensemble**.
+#' 
+#' From these definitions we can see that a *time series* is actually a *stochastic process*.
+#' We will now turn to see some simple examples of time series and how to program them in `Julia`.
 #' 
 #' ## Examples
 #' 
@@ -29,7 +41,7 @@ pyplot()
 #' 1. **White noise**
 #' 
 #' 
-#' For example, one of the basic time series is **white noise**, which is a time series
+#' One of the basic time series is **white noise**, which is a time series
 #' generated from uncorrelated variables, which are most of the time *normally distributed*.
 #' 
 #+ 
@@ -140,3 +152,10 @@ ts = TimeArray(dates, random_walk)
 # And plot both of them superimposed
 plot(ts, label = "Random walk with drift")
 
+#' 
+#' 
+#' Here we see a *trend* because every time period in the future, the *realization* is
+#' always higher than in past values. We might expect that this time series is always
+#' growing. We will see that *trends* are very useful to perform some basic exploratory
+#' analysis on the data itself.
+#' 
