@@ -104,7 +104,8 @@ rng = MersenneTwister(8092)
 #' 
 #' ## Example
 #' Let's look at an example for the particular case of the *moving average*. We will
-#' first work out the analytic form of the *autocovariance function* and *ACF* for the moving average.
+#' be working out the analytic form of the *autocovariance function* and *ACF* for the moving average
+#' while also providing the same results numerically using `Julia`.
 #' 
 #' Recall the 3-valued moving average to be defined as
 #' 
