@@ -1,3 +1,8 @@
+---
+title: Introduction to Time Series II
+author: Edwin Bedolla
+date: 6th April 2020
+---
 
 ```julia; results = "hidden"
 using Plots
@@ -12,6 +17,12 @@ pyplot()
 
 rng = MersenneTwister(8092)
 ```
+
+In this document, the main statistics such as the **mean function**, **autocovariance function**
+and **autocorrelation function** will be described, along with some examples.
+
+A full description of a given time series is always given by the **joint distribution function**
+
 
 ```julia; results = "hidden"
 # Create a range of time for a year, spaced evenly every 50 hours
