@@ -11,6 +11,7 @@ for the [Julia programming language](https://julialang.org).
 First, we import every module that will be used in this document.
 
 
+
 ```julia; results = "hidden"
 using Plots
 using Random
@@ -20,6 +21,8 @@ using Statistics: mean
 
 pyplot()
 ```
+
+
 
 
 
@@ -46,6 +49,7 @@ One of the basic time series is **white noise**, which is a time series
 generated from uncorrelated variables, which are most of the time *normally distributed*.
 
 
+
 ```julia
 # Create a range of time for a year, spaced evenly every 10 hours
 dates = DateTime(2018, 1, 1, 1):Dates.Hour(10):DateTime(2018, 12, 31, 24)
@@ -55,6 +59,8 @@ ts = TimeArray(dates, randn(length(dates)))
 # And plot it
 plot(ts, leg = false)
 ```
+
+
 
 
 
@@ -94,6 +100,7 @@ and future time periods and evaluates them, obtaining the **realization** as an 
 mean. The following example applies a moving average to a white noise time series.
 
 
+
 ```julia
 # Create a range of time for a year, spaced evenly every 50 hours
 dates = DateTime(2018, 1, 1, 1):Dates.Hour(50):DateTime(2018, 12, 31, 24)
@@ -107,6 +114,8 @@ moving_average = moving(mean, ts, 3)
 plot(ts, label = "White noise")
 plot!(moving_average, label = "Moving average")
 ```
+
+
 
 
 
@@ -144,6 +153,7 @@ have what's called a simple *random walk*.
 We can see an example of a random walk *with drift* and *without drift* below.
 
 
+
 ```julia
 # Create a range of time for a year, spaced evenly every 50 hours
 dates = DateTime(2018, 1, 1, 1):Dates.Hour(50):DateTime(2018, 12, 31, 24)
@@ -161,7 +171,13 @@ plot(ts_drift, label = "Random walk with drift")
 plot!(ts_nodrift, label = "Random walk without drift")
 ```
 
+
+
 Here we see a *trend* in the time series because every time period in the future
 the *realization* is always higher than in past values.We might expect that this
 time series is always growing. We will see that *trends* are very useful to perform
 some basic exploratory analysis on the data itself in further documents.
+
+
+```julia
+```

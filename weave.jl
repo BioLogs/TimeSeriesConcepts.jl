@@ -1,21 +1,19 @@
 using Weave
 
 # ! Create a collection of files to process
-filelist = ["concepts-p1"]
+filelist = ["concepts-p1", "concepts-p2"]
 
-function convert_weave(files::AbstractArray)
+function convert_weave(files::String)
     # ! Loop over all of them to convert between types
-    for f in filelist
-        filejl = f * ".jl"
-        filejmd = f * ".jmd"
-        # * From jl to jmd
-        convert_doc(joinpath("src/", filejl), joinpath("src/", filejmd))
-        # * From jmd to jl
-        # convert_doc(joinpath("src/", filejmd), joinpath("src/", filejl))
+    filejl = files * ".jl"
+    filejmd = files * ".jmd"
+    # * From jl to jmd
+    convert_doc(joinpath("src/", filejl), joinpath("src/", filejmd))
+    # * From jmd to jl
+    # convert_doc(joinpath("src/", filejmd), joinpath("src/", filejl))
 
-        # ! Finally, weave just the script files and return a HTML file
-        weave(joinpath("src/", filejl), out_path = "build/")
-    end
+    # ! Finally, weave just the script files and return a HTML file
+    weave(joinpath("src/", filejl), out_path = "build/")
 end
 
-convert_weave(filelist)
+map(convert_weave, filelist)
