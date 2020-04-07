@@ -11,11 +11,11 @@ using [`Weave.jl`](http://github.com/mpastell/Weave.jl).
 
 ## Index
 
-1. [Introducition to Time Series I](build/concepts-p1.html)
+1. [Introduction to Time Series I](build/concepts-p1.html)
     - What is a time series?
     - Examples of time series
 
-2. [Introducition to Time Series II](build/concepts-p2.html)
+2. [Introduction to Time Series II](build/concepts-p2.html)
     - Mean function
     - Autocovariance
     - Autocorrelation
