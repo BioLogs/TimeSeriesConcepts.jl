@@ -1,30 +1,17 @@
----
-title: Introduction to Time Series II
-author: Edwin Bedolla
-date: 6th April 2020
----
-
-```julia; results = "hidden"
+#+ results = "hidden"
 using Plots
 using Random
 using TimeSeries
 using Dates
 using Statistics
 using DataFrames
-using Test
 
 pyplot()
 
+# Ensure reproducibility of the results
 rng = MersenneTwister(8092)
-```
 
-In this document, the main statistics such as the **mean function**, **autocovariance function**
-and **autocorrelation function** will be described, along with some examples.
-
-A full description of a given time series is always given by the **joint distribution function**
-
-
-```julia; results = "hidden"
+#+ results = "hidden"
 # Create a range of time for a year, spaced evenly every 50 hours
 dates = DateTime(2018, 1, 1, 1):Dates.Minute(1):DateTime(2018, 12, 31, 24)
 # Build a TimeSeries object with the specified time range and white noise
@@ -32,9 +19,8 @@ ts = TimeArray(dates, randn(rng, length(dates)))
 moving_average = moving(mean, ts, 3)
 # Create a DataFrame with it
 df = DataFrame(moving_average)
-```
 
-```julia; results = "hidden"
+#+ results = "hidden"
 function avf(x::AbstractArray, h::Integer)
     n = length(x)
     # Compute sample mean
@@ -48,34 +34,23 @@ function avf(x::AbstractArray, h::Integer)
 
     return γ / (n - h)
 end
-```
 
-```julia; results = "hidden"
+#+ results = "hidden"
 true_γ = 1 / 9
 γ_hand = avf(df[:, :A], 2)
 γ_jl = cov(df[1:(end - 2), :A], df[3:end, :A])
-```
 
-```julia; hold = true
+#+ hold = true
 println("True autocovariance value: $true_γ")
 println("AVF by hand: $γ_hand")
 println("AVF using Julia: $γ_jl")
-```
 
-```julia; results = "hidden"
+#+ results = "hidden"
 function acrf(x::AbstractArray, h::Integer)
     return avf(x, h) / avf(x, 0)
 end
-```
 
-```julia; results = "hidden"
+#+ results = "hidden"
 true_ρ = 1 / 3
 ρ_hand = acrf(df[:, :A], 2)
 ρ_jl = cor(df[1:(end - 2), :A], df[3:end, :A])
-```
-
-```julia; hold = true
-println("True autocorrelation value: $true_ρ")
-println("ACF by hand: $ρ_hand")
-println("ACF using Julia: $ρ_jl")
-```
