@@ -93,45 +93,194 @@ which is a measure of **predictability** and we can define it in words as follow
 
 This measure is very much related to [Pearson's correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient)
 from classical statistics, which is a way to measure the relationship between values.
+
 The range of values for the ACF is $-1 \leq \rho(s,t) \leq 1$; when $\rho(s,t) = 1$
 it means that a *linear model* can perfectly describe the realization of the time series at time $t$
 provided with the realization at time $s$, e.g. a trend goind upwards, on the other hand,
 if $\rho(s,t) = -1$ would mean that the realization of the time series $x_t$ decrease while the realization
 $x_s$ is increasing.
 
+## Example
+Let's look at an example for the particular case of the *moving average*. We will
+first work out the analytic form of the *autocovariance function* and *ACF* for the moving average.
 
-```julia
-# Create a range of time for a year, spaced evenly every 60 hours
+Recall the 3-valued moving average to be defined as
+
+$$
+v_t = \frac{1}{3} \left( w_{t-1} + w_{t} + w_{t+1} \right)
+$$
+
+Let's plot the moving average again. We will create a very big time series for the sake
+of numerical approximation below.
+
+First, we create the white noise time series.
+
+```julia; results = "hidden"
+# Create a range of time for a year, spaced evenly every 1 minute
 dates = DateTime(2018, 1, 1, 1):Dates.Minute(1):DateTime(2018, 12, 31, 24)
 # Build a TimeSeries object with the specified time range and white noise
 ts = TimeArray(dates, randn(rng, length(dates)))
+# Create a DataFrame of the TimeSeries for easier handling
 df_ts = DataFrame(ts)
-first(df_ts)
 ```
 
-```julia
+Then, as before, we compute the 3-valued moving average.
+
+```julia; results = "hidden"
+# Compute the 3-valued moving average
 moving_average = moving(mean, ts, 3)
-# Create a DataFrame with it
+# Create a DataFrame of the TimeSeries for easier handling
 df_average = DataFrame(moving_average)
-first(df_average)
 ```
 
-Recall what these look like.
+Recall what these look like in a plot. We just plot the first 100 elements in
+the time series to avoid having a very cluttered plot.
 
 ```julia
 @df df_ts plot(:timestamp[1:100], :A[1:100], label = "White noise")
 @df df_average plot!(:timestamp[1:100], :A[1:100], label = "Moving average")
 ```
 
-```julia
-true_γ = 1 / 9
-```
+We are now ready to do some calculations. First, we invoke the definition of the
+*autocovariance function* and apply it to the moving average
+
+$$
+\gamma_v(s,t)=\text{cov}(v_s,v_t)=
+\text{cov}\{\frac{1}{3} \left( w_{t-1} + w_{t} + w_{t+1} \right),
+\frac{1}{3} \left( w_{s-1} + w_{s} + w_{s+1} \right)\}
+$$
+
+and now we need to look at some special cases.
+
+- When $s = t$ we now have the following
+
+$$
+\gamma_v(t,t)=\text{cov}(v_t,v_t)=
+\text{cov}\{\frac{1}{3} \left( w_{t-1} + w_{t} + w_{t+1} \right),
+\frac{1}{3} \left( w_{t-1} + w_{t} + w_{t+1} \right)\}
+$$
+
+then, by the property of
+[covariance of linear combinations](https://en.wikipedia.org/wiki/Covariance#Covariance_of_linear_combinations)
+we have the following simplification
+
+$$
+\gamma_v(t,t)=\text{cov}(v_t,v_t)=
+\frac{1}{9}\{\text{cov}(w_{t-1},w_{t-1}) + \text{cov}(w_{t},w_{t})
++ \text{cov}(w_{t+1},w_{t+1})\}
+$$
+
+and because $\text{cov}(U,U) = \text{var}(U)$ for a random variable $U$, for a white
+noise random variable we have $\text{var}(w_t)=\sigma^2_{wt}$, thus
+
+$$
+\gamma_v(t,t)=\text{cov}(v_t,v_t)= \frac{3}{9} \sigma^2_{wt}
+$$
+
+In this case, recall that our white noise is normally distributed
+$w_t \sim \mathcal{N}(0,\sigma^2_{wt})$ with $\sigma^2_{wt}$ so the true expected
+value is the following:
 
 ```julia
-#γ_jl = cov(df[1:(end - 2), :A], df[3:end, :A])
+true_γ = 3 / 9
 ```
 
+We will try to compute the *autocovariance function* using classical statistics
+by means of the `cov` function in `Julia`. We need to pass it the time series like
+so
+
 ```julia
-true_ρ = 1 / 3
-#ρ_jl = cor(df[1:(end - 2), :A], df[3:end, :A])
+γ_jl = cov(df_average[:, :A], df_average[:, :A])
+```
+
+And we can see that the value is quite similar. The error must come from the fact
+that we may need a bigger ensemble of values, but this should suffice.
+
+- When $s = t + 1$ we now have the following
+
+$$
+\gamma_v(t+1,t)=\text{cov}(v_{t+1},v_t)=
+\text{cov}\{\frac{1}{3} \left( w_{t} + w_{t+1} + w_{t+2} \right),
+\frac{1}{3} \left( w_{t-1} + w_{t} + w_{t+1} \right)\} \\
+\gamma_v(t+1,t)=\frac{1}{9}\{\text{cov}(w_{t},w_{t}) + \text{cov}(w_{t+1},w_{t+1})\} \\
+\gamma_v(t+1,t)=\frac{2}{9} \sigma^2_{wt}
+$$
+
+So the true value is now
+
+```julia
+true_γ = 2 / 9
+```
+
+To check this, we perform the same operations as before, but this time, we need
+to *move* the time series one time step with respect to itself.
+
+```julia
+# Remove the last element from the first and start with the second element
+γ_jl = cov(df_average[1:(end-1), :A], df_average[2:end, :A])
+```
+
+Great! Within a tolerance value, this is quite a nice estimate. It turns out that
+for the cases $s = t + h$ where $h \geq 2$, the value for the *autocovariance*
+is zero. We'll check it numerically here.
+
+```julia
+# Remove the last element from the first and start with the second element
+γ_jl = cov(df_average[1:(end-3), :A], df_average[4:end, :A])
+```
+
+It's actually true, a value very close to zero but, ¿why? It's easy to see
+if one applies the *autocovariance function* definition and checks the case
+$s = t + 3$, and so on.
+
+Let's now focus on the **ACF** for a 3-valued moving average.
+We have several cases, like before.
+
+- When $s = t$ we now have the following
+
+$$
+\rho_v(t,t)=\frac{\gamma_v(t,t)}{\sqrt{\gamma_v(t,t)\gamma_v(t,t)}}\\
+\rho_v(t,t)=\frac{\gamma_v(t,t)}{\gamma_v(t,t)} = 1
+$$
+
+so it turns out that the true value is $\rho_v(t,t)$, and we can check this using
+the `cor` function to compute the correlation coefficient in `Julia` as an estimate
+for the *ACF*
+
+```julia
+ρ = cor(df_average[:, :A], df_average[:, :A])
+```
+
+- When $s = t + 1$ we now have the following
+
+$$
+\rho_v(t+1,t)=\frac{\gamma_v(t+1,t)}{\sqrt{\gamma_v(t+1,t+1)\gamma_v(t,t)}}\\
+$$
+
+recall from before that $\gamma(t,t)=3/9 \sigma_{vt}^2$ for a white noise time series,
+and we also have $\gamma(t+1,t)=2/9 \sigma_{vt}^2$, so the *ACF* is now
+
+$$
+\rho_v(t+1,t)=\frac{2/9 \sigma_{vt}^2}{\sqrt{(3/9 \sigma_{vt}^2)(3/9 \sigma_{vt}^2)}}\\
+\rho_v(t+1,t)=\frac{18 \sigma_{vt}^2}{27 \sigma_{vt}^2}\\
+\rho_v(t+1,t)=\frac{2}{3}
+$$
+
+which is the true value
+
+```julia
+true_ρ = 2 / 3
+```
+
+and again, we can check this value numerically
+
+```julia
+ρ = cor(df_average[1:(end-1), :A], df_average[2:end, :A])
+```
+
+Lastly, like with the *autocovariance*, the *ACF* for the cases $s = t + h$ where $h \geq 2$
+is zero as seen below
+
+```julia
+ρ = cor(df_average[1:(end-3), :A], df_average[4:end, :A])
 ```
