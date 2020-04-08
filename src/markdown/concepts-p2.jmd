@@ -147,7 +147,7 @@ Recall what these look like in a plot. We just plot the first 100 elements in
 the time series to avoid having a very cluttered plot.
 
 
-```julia; 
+```julia
 @df df_ts plot(:timestamp[1:100], :A[1:100], label = "White noise")
 @df df_average plot!(:timestamp[1:100], :A[1:100], label = "Moving average")
 ```
@@ -195,7 +195,7 @@ $w_t \sim \mathcal{N}(0,\sigma^2_{wt})$ with $\sigma^2_{wt}$ so the true expecte
 value is the following:
 
 
-```julia; 
+```julia
 true_γ = 3 / 9
 ```
 
@@ -206,7 +206,7 @@ by means of the `cov` function in `Julia`. We need to pass it the time series li
 so
 
 
-```julia; 
+```julia
 γ_jl = cov(df_average[:, :A], df_average[:, :A])
 ```
 
@@ -228,7 +228,7 @@ $$
 So the true value is now
 
 
-```julia; 
+```julia
 true_γ = 2 / 9
 ```
 
@@ -238,7 +238,7 @@ To check this, we perform the same operations as before, but this time, we need
 to *move* the time series one time step with respect to itself.
 
 
-```julia; 
+```julia
 # Remove the last element from the first and start with the second element
 γ_jl = cov(df_average[1:(end-1), :A], df_average[2:end, :A])
 ```
@@ -250,7 +250,7 @@ for the cases $s = t + h$ where $h \geq 2$, the value for the *autocovariance*
 is zero. We'll check it numerically here.
 
 
-```julia; 
+```julia
 # Remove the last element from the first and start with the second element
 γ_jl = cov(df_average[1:(end-3), :A], df_average[4:end, :A])
 ```
@@ -271,12 +271,12 @@ $$
 \rho_v(t,t)=\frac{\gamma_v(t,t)}{\gamma_v(t,t)} = 1
 $$
 
-so it turns out that the true value is $\rho_v(t,t)$, and we can check this using
+so it turns out that the true value is $\rho_v(t,t)=1$, and we can check this using
 the `cor` function to compute the correlation coefficient in `Julia` as an estimate
 for the *ACF*
 
 
-```julia; 
+```julia
 ρ = cor(df_average[:, :A], df_average[:, :A])
 ```
 
@@ -300,7 +300,7 @@ $$
 which is the true value
 
 
-```julia; 
+```julia
 true_ρ = 2 / 3
 ```
 
@@ -309,7 +309,7 @@ true_ρ = 2 / 3
 and again, we can check this value numerically
 
 
-```julia; 
+```julia
 ρ = cor(df_average[1:(end-1), :A], df_average[2:end, :A])
 ```
 
@@ -319,6 +319,6 @@ Lastly, like with the *autocovariance*, the *ACF* for the cases $s = t + h$ wher
 is zero as seen below
 
 
-```julia; 
+```julia
 ρ = cor(df_average[1:(end-3), :A], df_average[4:end, :A])
 ```
