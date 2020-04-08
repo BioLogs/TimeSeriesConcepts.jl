@@ -9,6 +9,7 @@ and **autocorrelation function** will be described, along with some examples.
 
 We will import all of the necessary modules first.
 
+
 ```julia; results = "hidden"
 using StatsPlots
 using Random
@@ -22,6 +23,8 @@ pyplot()
 # Ensure reproducibility of the results
 rng = MersenneTwister(8092)
 ```
+
+
 
 ## Descriptive statistics and measures
 
@@ -116,6 +119,7 @@ of numerical approximation below.
 
 First, we create the white noise time series.
 
+
 ```julia; results = "hidden"
 # Create a range of time for a year, spaced evenly every 1 minute
 dates = DateTime(2018, 1, 1, 1):Dates.Minute(1):DateTime(2018, 12, 31, 24)
@@ -125,7 +129,10 @@ ts = TimeArray(dates, randn(rng, length(dates)))
 df_ts = DataFrame(ts)
 ```
 
+
+
 Then, as before, we compute the 3-valued moving average.
+
 
 ```julia; results = "hidden"
 # Compute the 3-valued moving average
@@ -134,13 +141,18 @@ moving_average = moving(mean, ts, 3)
 df_average = DataFrame(moving_average)
 ```
 
+
+
 Recall what these look like in a plot. We just plot the first 100 elements in
 the time series to avoid having a very cluttered plot.
 
-```julia
+
+```julia; 
 @df df_ts plot(:timestamp[1:100], :A[1:100], label = "White noise")
 @df df_average plot!(:timestamp[1:100], :A[1:100], label = "Moving average")
 ```
+
+
 
 We are now ready to do some calculations. First, we invoke the definition of the
 *autocovariance function* and apply it to the moving average
@@ -182,17 +194,23 @@ In this case, recall that our white noise is normally distributed
 $w_t \sim \mathcal{N}(0,\sigma^2_{wt})$ with $\sigma^2_{wt}$ so the true expected
 value is the following:
 
-```julia
+
+```julia; 
 true_γ = 3 / 9
 ```
+
+
 
 We will try to compute the *autocovariance function* using classical statistics
 by means of the `cov` function in `Julia`. We need to pass it the time series like
 so
 
-```julia
+
+```julia; 
 γ_jl = cov(df_average[:, :A], df_average[:, :A])
 ```
+
+
 
 And we can see that the value is quite similar. The error must come from the fact
 that we may need a bigger ensemble of values, but this should suffice.
@@ -209,26 +227,35 @@ $$
 
 So the true value is now
 
-```julia
+
+```julia; 
 true_γ = 2 / 9
 ```
+
+
 
 To check this, we perform the same operations as before, but this time, we need
 to *move* the time series one time step with respect to itself.
 
-```julia
+
+```julia; 
 # Remove the last element from the first and start with the second element
 γ_jl = cov(df_average[1:(end-1), :A], df_average[2:end, :A])
 ```
+
+
 
 Great! Within a tolerance value, this is quite a nice estimate. It turns out that
 for the cases $s = t + h$ where $h \geq 2$, the value for the *autocovariance*
 is zero. We'll check it numerically here.
 
-```julia
+
+```julia; 
 # Remove the last element from the first and start with the second element
 γ_jl = cov(df_average[1:(end-3), :A], df_average[4:end, :A])
 ```
+
+
 
 It's actually true, a value very close to zero but, ¿why? It's easy to see
 if one applies the *autocovariance function* definition and checks the case
@@ -248,9 +275,12 @@ so it turns out that the true value is $\rho_v(t,t)$, and we can check this usin
 the `cor` function to compute the correlation coefficient in `Julia` as an estimate
 for the *ACF*
 
-```julia
+
+```julia; 
 ρ = cor(df_average[:, :A], df_average[:, :A])
 ```
+
+
 
 - When $s = t + 1$ we now have the following
 
@@ -269,19 +299,26 @@ $$
 
 which is the true value
 
-```julia
+
+```julia; 
 true_ρ = 2 / 3
 ```
 
+
+
 and again, we can check this value numerically
 
-```julia
+
+```julia; 
 ρ = cor(df_average[1:(end-1), :A], df_average[2:end, :A])
 ```
+
+
 
 Lastly, like with the *autocovariance*, the *ACF* for the cases $s = t + h$ where $h \geq 2$
 is zero as seen below
 
-```julia
+
+```julia; 
 ρ = cor(df_average[1:(end-3), :A], df_average[4:end, :A])
 ```
