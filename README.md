@@ -19,3 +19,7 @@ using [`Weave.jl`](http://github.com/mpastell/Weave.jl).
     - Mean function
     - Autocovariance
     - Autocorrelation
+
+3. [Introduction to Time Series III](build/concepts-p3.html)
+   - Estimation of statistics from sampled data
+   - The lag operator
