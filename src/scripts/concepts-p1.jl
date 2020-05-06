@@ -7,9 +7,7 @@
 #' This document gathers some main concepts in time series analysis as well as some examples written
 #' for the [Julia programming language](https://julialang.org).
 #' 
-#' 
 #' First, we import every module that will be used in this document.
-#' 
 #' 
 #' 
 #+ results = "hidden"
@@ -20,10 +18,8 @@ using TimeSeries
 using Dates
 using Statistics: mean
 
-pyplot()
+gr()
 
-#' 
-#' 
 #' 
 #' 
 #' 
@@ -62,8 +58,6 @@ ts = TimeArray(dates, randn(length(dates)))
 # And plot it
 plot(ts, leg = false)
 
-#' 
-#' 
 #' 
 #' 
 #' 
@@ -123,8 +117,6 @@ plot!(moving_average, label = "Moving average")
 #' 
 #' 
 #' 
-#' 
-#' 
 #' In this case we used the following 3-valued moving average
 #' 
 #' 
@@ -160,6 +152,8 @@ plot!(moving_average, label = "Moving average")
 #' 
 #' 
 #' 
+#' 
+#' 
 #+ 
 
 # Create a range of time for a year, spaced evenly every 50 hours
@@ -180,13 +174,9 @@ plot!(ts_nodrift, label = "Random walk without drift")
 #' 
 #' 
 #' 
-#' 
 #' Here we see a *trend* in the time series because every time period in the future
 #' the *realization* is always higher than in past values.We might expect that this
 #' time series is always growing. We will see that *trends* are very useful to perform
 #' some basic exploratory analysis on the data itself in further documents.
 #' 
 #' 
-#+ 
-
-
