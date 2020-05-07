@@ -90,7 +90,7 @@ df_ar = TimeArray(dates[1:(end-1)], ar) |> DataFrame
 #' As we said before, we are concerned with estimating the ACF and AVF of a time
 #' series when we only have sampled data at hand. In the case of the autoregressive
 #' time series we are studying, I have obtained the true value of the AVF, $\gamma$
-#' which is the following.
+#' which is the following
 #' 
 #' 
 #+ 
@@ -101,7 +101,7 @@ true_γ = 1.49
 #' 
 #' 
 #' 
-#' We compare it to the `Julia`'s built-in function to comput the covariance
+#' We compare it to the `Julia`'s built-in function to compute the covariance
 #' value of the time series.
 #' 
 #' 
@@ -168,7 +168,7 @@ end
 #' 
 #' 
 #' We can see that the results are very similar to those obtained with 
-#' the built-in `cov`, and very close to the true theoretical value. We will obtain
+#' the built-in `cov`, and very close to the true theoretical value. We can obtain
 #' the true theoretical value with increasing samples from the time series.
 #' 
 #' ### Autocorrelation function

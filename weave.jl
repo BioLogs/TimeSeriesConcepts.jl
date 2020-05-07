@@ -23,4 +23,5 @@ function convert_weave(files::String)
     )
 end
 
+# * Weave all documents from the list to HTML
 map(convert_weave, filelist)

@@ -716,7 +716,7 @@ div.title {text-align: center;}
 
 <p>As we can see, this time series is not really different from the ones that we have studied so far, but one of the fundamental properties of the autoregressive model or time series is that is shows <strong>periodicity</strong>; we will explore all of this later.</p>
 <h2>Correlation of an autoregressive time series</h2>
-<p>As we said before, we are concerned with estimating the ACF and AVF of a time series when we only have sampled data at hand. In the case of the autoregressive time series we are studying, I have obtained the true value of the AVF, <span class="math">$\gamma$</span> which is the following.</p>
+<p>As we said before, we are concerned with estimating the ACF and AVF of a time series when we only have sampled data at hand. In the case of the autoregressive time series we are studying, I have obtained the true value of the AVF, <span class="math">$\gamma$</span> which is the following</p>
 
 
 <pre class='hljl'>
@@ -729,7 +729,7 @@ div.title {text-align: center;}
 </pre>
 
 
-<p>We compare it to the <code>Julia</code>&#39;s built-in function to comput the covariance value of the time series.</p>
+<p>We compare it to the <code>Julia</code>&#39;s built-in function to compute the covariance value of the time series.</p>
 
 
 <pre class='hljl'>
@@ -790,7 +790,7 @@ div.title {text-align: center;}
 </pre>
 
 
-<p>We can see that the results are very similar to those obtained with  the built-in <code>cov</code>, and very close to the true theoretical value. We will obtain the true theoretical value with increasing samples from the time series.</p>
+<p>We can see that the results are very similar to those obtained with  the built-in <code>cov</code>, and very close to the true theoretical value. We can obtain the true theoretical value with increasing samples from the time series.</p>
 <h3>Autocorrelation function</h3>
 <p>A similar estimator for the ACF can be used, and in particular we have</p>
 <p class="math">\[
