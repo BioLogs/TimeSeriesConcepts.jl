@@ -11,15 +11,15 @@ programming environment.
 
 ## Index
 
-1. [Introduction to Time Series I](src/concepts1.html)
+1. [Introduction to Time Series I](src/html/concepts1.html)
     - What is a time series?
     - Examples of time series
 
-2. [Introduction to Time Series II](src/concepts2.html)
+2. [Introduction to Time Series II](src/html/concepts2.html)
     - Mean function
     - Autocovariance
     - Autocorrelation
 
-3. [Introduction to Time Series III](src/concepts3.html)
+3. [Introduction to Time Series III](src/html/concepts3.html)
    - Estimation of statistics from sampled data
    - The lag operator
