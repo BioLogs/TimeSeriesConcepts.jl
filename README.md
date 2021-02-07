@@ -6,20 +6,20 @@ analysis of them in the [Julia programming language](https://www.julialang.org).
 It is expected that the reader is familiar with college-level probability and statistics,
 multivariable calculus and some numerical methods, namely regression analysis.
 
-All documents are writen in Julia Markdown markup language and converted to HTML files
-using [`Weave.jl`](http://github.com/mpastell/Weave.jl).
+All documents are written using the fantastic [Pluto.jl](https://github.com/fonsp/Pluto.jl)
+programming environment.
 
 ## Index
 
-1. [Introduction to Time Series I](build/concepts-p1.html)
+1. [Introduction to Time Series I](src/concepts1.html)
     - What is a time series?
     - Examples of time series
 
-2. [Introduction to Time Series II](build/concepts-p2.html)
+2. [Introduction to Time Series II](src/concepts2.html)
     - Mean function
     - Autocovariance
     - Autocorrelation
 
-3. [Introduction to Time Series III](build/concepts-p3.html)
+3. [Introduction to Time Series III](src/concepts3.html)
    - Estimation of statistics from sampled data
    - The lag operator

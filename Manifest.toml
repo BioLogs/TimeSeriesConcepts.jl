@@ -273,6 +273,12 @@ version = "1.0.5+6"
 deps = ["Random"]
 uuid = "9fa8497b-333b-5362-9e8d-4d0656e87820"
 
+[[FuzzyCompletions]]
+deps = ["REPL"]
+git-tree-sha1 = "5ca3ddf3061771d25d1699ce53a80a39300811e3"
+uuid = "fb4132e2-a121-4a70-b8a1-d5b831dcdcc2"
+version = "0.4.0"
+
 [[GLFW_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libglvnd_jll", "Pkg", "Xorg_libXcursor_jll", "Xorg_libXi_jll", "Xorg_libXinerama_jll", "Xorg_libXrandr_jll"]
 git-tree-sha1 = "a1bbf700b5388bffc3d882f4f4d625cf1c714fd7"
@@ -319,12 +325,6 @@ deps = ["Base64", "Dates", "IniFile", "MbedTLS", "Sockets"]
 git-tree-sha1 = "c7ec02c4c6a039a98a15f955462cd7aea5df4508"
 uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 version = "0.8.19"
-
-[[Highlights]]
-deps = ["DocStringExtensions", "InteractiveUtils", "REPL"]
-git-tree-sha1 = "f823a2d04fb233d52812c8024a6d46d9581904a4"
-uuid = "eafb193a-b7ab-5a9e-9068-77385905fa72"
-version = "0.4.5"
 
 [[IniFile]]
 deps = ["Test"]
@@ -526,17 +526,17 @@ git-tree-sha1 = "916b850daad0d46b8c71f65f719c49957e9513ed"
 uuid = "78c3b35d-d492-501b-9361-3d52fe80e533"
 version = "0.7.1"
 
+[[MsgPack]]
+deps = ["Serialization"]
+git-tree-sha1 = "a8cbf066b54d793b9a48c5daa5d586cf2b5bd43d"
+uuid = "99f44e22-a591-53d1-9472-aa23ef4bd671"
+version = "1.1.0"
+
 [[MultivariateStats]]
 deps = ["Arpack", "LinearAlgebra", "SparseArrays", "Statistics", "StatsBase"]
 git-tree-sha1 = "352fae519b447bf52e6de627b89f448bcd469e4e"
 uuid = "6f286f6a-111f-5878-ab1e-185364afe411"
 version = "0.7.0"
-
-[[Mustache]]
-deps = ["Printf", "Tables"]
-git-tree-sha1 = "36995ef0d532fe08119d70b2365b7b03d4e00f48"
-uuid = "ffc61752-8dc7-55ee-8c37-f3e9cdd09e70"
-version = "1.0.10"
 
 [[NaNMath]]
 git-tree-sha1 = "bfe47e760d60b82b66b61d2d44128b62e3a369fb"
@@ -640,6 +640,12 @@ deps = ["Base64", "Contour", "Dates", "FFMPEG", "FixedPointNumbers", "GR", "Geom
 git-tree-sha1 = "3acf7ee21b0c0ea99ef0815e7768c1c0fde82629"
 uuid = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 version = "1.10.2"
+
+[[Pluto]]
+deps = ["Base64", "Dates", "Distributed", "FuzzyCompletions", "HTTP", "InteractiveUtils", "Logging", "Markdown", "MsgPack", "Pkg", "REPL", "Sockets", "Tables", "UUIDs"]
+git-tree-sha1 = "fe1fdbff28f179216a1e756bd5494057b036945f"
+uuid = "c3e4b0f8-55cb-11ea-2926-15256bba5781"
+version = "0.12.20"
 
 [[PooledArrays]]
 deps = ["DataAPI"]
@@ -873,12 +879,6 @@ git-tree-sha1 = "2839f1c1296940218e35df0bbb220f2a79686670"
 uuid = "2381bf8a-dfd0-557d-9999-79630e7b1b91"
 version = "1.18.0+4"
 
-[[Weave]]
-deps = ["Base64", "Dates", "Highlights", "JSON", "Markdown", "Mustache", "Pkg", "Printf", "REPL", "Requires", "Serialization", "YAML"]
-git-tree-sha1 = "484f9c3b6551c005d37e860f1be167a96afbd3d8"
-uuid = "44d3d7a6-8a23-5bf8-98c5-b353f8df5ec9"
-version = "0.10.6"
-
 [[Widgets]]
 deps = ["Colors", "Dates", "Observables", "OrderedCollections"]
 git-tree-sha1 = "fc0feda91b3fef7fe6948ee09bb628f882b49ca4"
@@ -1028,12 +1028,6 @@ deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "79c31e7844f6ecf779705fbc12146eb190b7d845"
 uuid = "c5fb5394-a638-5e4d-96e5-b29de1b5cf10"
 version = "1.4.0+3"
-
-[[YAML]]
-deps = ["Base64", "Dates", "Printf"]
-git-tree-sha1 = "78c02bd295bbd0ca330f95e07ccdfcb69f6cbcd4"
-uuid = "ddb6d928-2868-570f-bddf-ab3f9cf99eb6"
-version = "0.4.6"
 
 [[Zlib_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
